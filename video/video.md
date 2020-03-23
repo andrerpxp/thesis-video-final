@@ -1,0 +1,50 @@
+00:10 # html
+
+00:10
+
+```html
+<section class="company">
+  <p>Name: <span class="name"></span></p>
+  <p>Price: <span class="price"></span></p>
+</section>
+```
+
+00:42 # http.open()
+
+00:42
+
+```js
+const http = new XMLHttpRequest();
+http.open("GET", "https://financialmodelingprep.com/api/v3/company/profile/AAPL");
+http.send();
+```
+
+01:20 # handleError
+
+01:20
+
+```js
+function handleError() {
+  const company = document.querySelector(".company");
+  company.innerHTML = "<p>Error.</p>";
+}
+http.addEventListener("error", handleError);
+```
+
+02:05 # handleLoad
+
+02:05
+
+```js
+function handleLoad(event) {
+  const response = event.target.response;
+  const data = JSON.parse(response);
+
+  const name = document.querySelector(".name");
+  const price = document.querySelector(".price");
+
+  name.innerText = data.profile.companyName;
+  price.innerText = data.profile.price;
+}
+http.addEventListener("load", handleLoad);
+```

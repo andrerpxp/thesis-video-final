@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Interactive Video Player</title>
+  <link rel="stylesheet" href="./css/custom-video.css">
+</head>
+
+<body>
+  <section class="v-container">
+    <div class="v-wrapper">
+      <video id="video" data-file="./video/video.mp4" data-subtitle="./video/sub-ptbr.vtt ./video/sub-en.vtt"></video>
+
+      <div class="v-controls v-active" id="v-controls">
+        <div id="progress" class="v-progress">
+          <div class="v-progress-thumbnail">
+            <span class="v-progress-title"></span>
+            <span class="v-progress-time"></span>
+            <div class="v-progress-thumbnail-img"></div>
+          </div>
+          <div id="progress-max" class="v-progress-max">
+            <div id="progress-total" class="v-progress-total"></div>
+          </div>
+        </div>
+        <div class="v-buttons">
+          <button aria-label="Play" id="play" class="v-play">Play</button>
+          <button aria-label="Rewind 5s" id="rewind" class="v-rewind">Rewind</button>
+          <button aria-label="Forward 5s" id="forward" class="v-forward">Forward</button>
+          <div class="v-time">
+            <span aria-label="Current Time" class="v-time-passed"></span>
+            <span>/</span>
+            <span aria-label="Video Duration" class="v-time-total"></span>
+          </div>
+          <div class="v-volume">
+            <div class="v-volume-level" id="volume-level">
+              <div aria-label="Volume Slide" id="volume-slide" class="v-volume-current-level"></div>
+            </div>
+            <button aria-label="Volume" id="volume" class="v-volume-btn">Volume</button>
+          </div>
+          <div class="v-playback" id="playback-wrapper">
+            <button aria-label="Playback Speed" id="playback" class="v-playback-btn">
+              <span class="v-playback-speed" id="playback-number">1</span><span id="playback-x">x</span></button>
+            <div class="v-playback-menu" id="playback-menu"></div>
+          </div>
+          <!-- <button class="v-settings"></button> -->
+          <div class="v-subtitle">
+            <button aria-label="Subtitles" id="subtitle" class="v-subtitle-btn">Subtitles</button>
+            <div class="v-subtitle-menu"></div>
+          </div>
+          <button aria-label="Fullscreen" id="fullscreen" class="v-fullscreen">Fullscreen</button>
+        </div>
+      </div>
+
+      <div class="v-subtitle-container">
+        <div class="v-subtitle-box">
+          <span class="v-subtitle-text"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="data"></div>
+
+  <!-- <script src="./script/clickstream.js"></script> -->
+  <!-- <script src="./script/heatmap.min.js"></script>
+  <script src="./script/heatmap-data.js"></script> -->
+  <script src="./script/clipboard.min.js"></script>
+  <script src="./script/custom-video.js"></script>
+</body>
+
+</html>

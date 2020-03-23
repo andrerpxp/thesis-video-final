@@ -1,0 +1,217 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.360
+Neste vídeo vou mostrar como utilizar Javascript
+para fazer uma requisição a uma API externa
+
+2
+00:00:05.360 --> 00:00:08.700
+E mostrar essas informações dentro do nosso documento
+
+3
+00:00:09.400 --> 00:00:14.780
+Tenho aqui o documento aberto e a primeira parte
+que eu vou criar aqui seria o nosso HTML
+
+4
+00:00:14.780 --> 00:00:20.880
+Vou criar uma <section class="company">
+Que seria as informações da empresa
+
+5
+00:00:20.880 --> 00:00:26.160
+E vou colocar aqui dentro
+<p>Name: </p> com o nome da empresa
+
+6
+00:00:26.160 --> 00:00:33.080
+Vou botar <span class="name"></span>
+Que vai ser aonde vamos preencher o dado
+
+7
+00:00:33.180 --> 00:00:38.640
+E vou duplicar para ter o preço também
+Então vai ter o nome e o preço da ação
+
+8
+00:00:38.840 --> 00:00:41.440
+Salvei isso, agora já podemos iniciar o Javascript
+
+9
+00:00:41.440 --> 00:00:46.230
+Então começa <script> e a primeira coisa
+que eu preciso é abrir essa conexão http
+
+10
+00:00:46.230 --> 00:00:54.120
+Então vou criar aqui uma constante
+const http = new XMLHttpRequest();
+
+11
+00:00:54.160 --> 00:00:59.500
+Assim já abri uma requisição, agora tenho que avisar
+qual o site que tô querendo buscar essa informação
+
+12
+00:00:59.620 --> 00:01:05.180
+Então você bota http.open(); para abrir essa conexão
+Você diz qual o método de conexão
+
+13
+00:01:05.220 --> 00:01:11.140
+Você quer o GET, que é para puxar informação
+E o 2º argumento é o url que vamos buscá-las
+
+14
+00:01:11.580 --> 00:01:19.960
+Vou copiar e colar aqui e só precisamos agora
+enviar essa requisição http.send();
+
+15
+00:01:20.020 --> 00:01:24.320
+Assim ela já está aberta pra gente
+Agora eu vou lidar com o erro
+
+16
+00:01:24.320 --> 00:01:26.960
+Caso essa requisição não ocorra 
+O que que ele vai fazer?
+
+17
+00:01:26.960 --> 00:01:30.980
+Vou criar então uma função chamada:
+function handleError();
+
+18
+00:01:30.980 --> 00:01:35.920
+E para mostrar para o usuário, vou selecionar esse
+elemento inteiro do <section class="company">
+
+19
+00:01:35.940 --> 00:01:42.440
+const company = document.querySelector(".company")
+
+20
+00:01:42.660 --> 00:01:51.160
+E vou mudar o html inteiro dele e mostrar um erro
+company.innerHtml = "<p>Error.</p>";
+
+21
+00:01:51.500 --> 00:01:56.020
+Vou salvar, e o que falta agora é informar
+quando que essa função deve ocorrer
+
+22
+00:01:56.020 --> 00:02:00.660
+Ela deve ocorrer aqui no evento 
+http.addEventListener("error", handleError);
+
+23
+00:02:00.660 --> 00:02:06.220
+Então sempre que o evento de "erro" acontecer
+ele aciona a função handleError()
+
+24
+00:02:06.220 --> 00:02:09.700
+A próxima função é quando 
+esse conteúdo for carregado
+
+25
+00:02:09.780 --> 00:02:12.540
+Vou chamar de function handleLoad();
+
+26
+00:02:12.540 --> 00:02:15.440
+Então assim que ele for carregado, 
+o que que vai acontecer com ela...
+
+27
+00:02:15.460 --> 00:02:20.220
+Já vou adicionar aqui no 
+http.addEventListener("load", handleLoad );
+
+28
+00:02:20.220 --> 00:02:24.410
+Então em um evento de "load" eu quero
+que essa função handleLoad(); seja ativada
+
+29
+00:02:24.410 --> 00:02:26.700
+Nessa função vou ter que pegar o evento em si 
+function handleLoad(event);
+
+30
+00:02:26.700 --> 00:02:31.420
+Porque quero pegar esse elemento http específico
+E a resposta que vem junto com ele
+
+31
+00:02:31.420 --> 00:02:39.060
+Então vou botar 
+const response = event.target.response;
+
+32
+00:02:39.160 --> 00:02:46.560
+Uma response ao texto com as informações da Apple
+console.log(response); salvei, vê toda info da Apple
+
+33
+00:02:46.880 --> 00:02:54.940
+Vamos agora transformar esse texto em um objeto
+const data = JSON.parse(response);
+
+34
+00:02:54.980 --> 00:02:59.360
+Porque esse texto daí é um texto do tipo JSON 
+Então vou 'parsear' essa resposta
+
+35
+00:02:59.820 --> 00:03:03.300
+Ela vai virar agora um objeto para podermos
+acessar informação direto
+
+36
+00:03:03.300 --> 00:03:11.460
+Agora vou selecionar meu elemento de "nome"
+const name = document.querySelector(".name");
+
+37
+00:03:11.640 --> 00:03:18.220
+E vou acessar também o ".price" 
+Vou então simplesmente mudar o texto desses itens
+
+38
+00:03:18.220 --> 00:03:26.500
+name.innerText = data.profile.companyName;
+
+39
+00:03:26.560 --> 00:03:31.300
+Porque está dentro do "profile", dá uma olhada,
+Você vai ver que tem "symbol" depois tem o "profile"
+
+40
+00:03:31.360 --> 00:03:35.280
+E dentro do profile eu tenho preço que é o "price"
+ e tenho "companyName" que eu quero mostrar
+
+41
+00:03:36.760 --> 00:03:44.180
+name.innerText = data.profile.companyName;
+price.innerText = data.price;
+
+42
+00:03:44.420 --> 00:03:49.120
+Salvo isso daqui, vamos dar uma olhada
+Ele já tá preenchendo nossa informação
+
+43
+00:03:49.300 --> 00:03:53.840
+Pra você ver se ta funcionando realmente
+Pode vir aqui e mudar para outro tipo de ação
+
+44
+00:03:53.850 --> 00:04:03.920
+Como por exemplo /MSFT que é da Microsoft 
+Salvo, e ele mostra o nome e o preço atual da ação
+
