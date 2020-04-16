@@ -1,6 +1,6 @@
 // Helpers
 const zeroPad = (num, places) => String(num).padStart(places, "0");
-const sec2time = time => {
+const sec2time = (time) => {
   const date = new Date(time * 1000);
   const minutes = date.getUTCMinutes();
   const seconds = date.getSeconds();
@@ -19,7 +19,7 @@ const debounce = (callback, delay) => {
 function throttle(callback, wait, immediate = false) {
   let timeout = null;
   let initialCall = true;
-  return function() {
+  return function () {
     const callNow = immediate && initialCall;
     const next = () => {
       callback.apply(this, arguments);
@@ -32,7 +32,7 @@ function throttle(callback, wait, immediate = false) {
     if (!timeout) timeout = setTimeout(next, wait);
   };
 }
-const HMSToSeconds = str => {
+const HMSToSeconds = (str) => {
   let p = str.split(":");
   let s = 0;
   let m = 1;
@@ -56,7 +56,7 @@ async function loadImages() {
       const req = new XMLHttpRequest();
       req.open("GET", image, true);
       req.responseType = "blob";
-      req.onload = function() {
+      req.onload = function () {
         if (this.status === 200) {
           const img = URL.createObjectURL(this.response);
           resolve([i, img]);
@@ -112,17 +112,17 @@ class VideoPlayer {
     req.open("GET", video.dataset.file, true);
     req.responseType = "blob";
     const loading = this.addLoading();
-    req.onload = function() {
+    req.onload = function () {
       if (this.status === 200) {
         var vid = URL.createObjectURL(this.response);
         video.src = vid;
         loading.remove();
       }
     };
-    req.onerror = function() {
+    req.onerror = function () {
       console.log("err", arguments);
     };
-    req.onprogress = function(e) {
+    req.onprogress = function (e) {
       if (e.lengthComputable) {
         const percentComplete = ((e.loaded / e.total) * 300) | 0;
         loading.style.borderLeft = `${percentComplete}px solid black`;
@@ -144,7 +144,7 @@ class VideoProgressBar {
     this.setProgressBarSizes();
 
     this.thumbArray = loadImages();
-    document.addEventListener("thumbloaded", event =>
+    document.addEventListener("thumbloaded", (event) =>
       this.addTimeTooltip(event),
     );
 
@@ -213,7 +213,7 @@ class VideoProgressBar {
       firstRow[i] = [160 * i, 0];
     }
     for (let i = 0; i < 5; i++) {
-      matrix[i] = firstRow.map(arr => [arr[0], 90 * i]);
+      matrix[i] = firstRow.map((arr) => [arr[0], 90 * i]);
     }
     // mesma coisa que arr.flat();
     matrix = [].concat.apply([], matrix);
@@ -237,7 +237,7 @@ class VideoProgressBar {
       ".v-progress-thumbnail-img",
     );
 
-    const showTooltip = throttle(event => {
+    const showTooltip = throttle((event) => {
       const move = this.calculateMove(event);
       const barWidth = this.progressBarSizes.width;
       const maxRight = barWidth - 135;
@@ -259,13 +259,13 @@ class VideoProgressBar {
       ];
     }, 20);
 
-    const addTooltip = event => {
+    const addTooltip = (event) => {
       this.progressBar.addEventListener("mousemove", showTooltip);
       setTimeout(() => {
         this.progressThumbnail.classList.add("active");
       }, 10);
     };
-    const removeTooltip = event => {
+    const removeTooltip = (event) => {
       this.progressBar.removeEventListener("mousemove", showTooltip);
       setTimeout(() => {
         this.progressThumbnail.classList.remove("active");
@@ -341,7 +341,7 @@ class VideoButtons {
   addRewindForward() {
     this.rewindBtn = this.controls.querySelector(".v-rewind");
     this.forwardBtn = this.controls.querySelector(".v-forward");
-    const changeVideoTime = time => (this.video.currentTime += time);
+    const changeVideoTime = (time) => (this.video.currentTime += time);
 
     this.rewindBtn.addEventListener("click", () => changeVideoTime(-5));
     this.forwardBtn.addEventListener("click", () => changeVideoTime(5));
@@ -358,7 +358,7 @@ class VideoButtons {
     this.playbackSpeed = this.controls.querySelector(".v-playback-speed");
     this.currentRate = Number(window.localStorage.videoSpeed) || 1;
 
-    const changeVideoPlayback = rate => {
+    const changeVideoPlayback = (rate) => {
       this.video.playbackRate = rate;
       this.playbackSpeed.textContent = rate;
       window.localStorage.videoSpeed = rate;
@@ -368,11 +368,11 @@ class VideoButtons {
 
     // Add Buttons based on the rates
     rates.forEach(
-      rate =>
+      (rate) =>
         (this.playbackMenu.innerHTML += `<button id="playback-${rate}" data-playbackrate="${rate}">${rate}x</button>`),
     );
     this.playbackBtns = this.playbackMenu.querySelectorAll("button");
-    this.playbackBtns.forEach(btn => {
+    this.playbackBtns.forEach((btn) => {
       const rate = Number(btn.dataset.playbackrate);
       btn.addEventListener("click", () => {
         changeVideoPlayback(rate);
@@ -438,7 +438,7 @@ class VideoButtons {
       };
     };
 
-    const changeVolumeIcon = volume => {
+    const changeVolumeIcon = (volume) => {
       if (volume === 0) {
         this.volumeBtn.dataset.volume = "0";
       } else if (volume <= 0.5) {
@@ -448,7 +448,7 @@ class VideoButtons {
       }
     };
 
-    const changeVolume = volume => {
+    const changeVolume = (volume) => {
       changeVolumeIcon(volume);
       this.video.volume = Number(volume.toFixed(1));
       window.localStorage.videoVolume = this.video.volume;
@@ -463,7 +463,7 @@ class VideoButtons {
     }
     changeVolume(volume);
 
-    const onMouseMove = event => {
+    const onMouseMove = (event) => {
       let move;
       if (event.type === "touchmove") {
         move = event.changedTouches[0].pageX;
@@ -479,7 +479,7 @@ class VideoButtons {
       }
     };
 
-    const onMouseDown = event => {
+    const onMouseDown = (event) => {
       setCurrentSizes();
       onMouseMove(event);
       document.addEventListener("touchmove", onMouseMove);
@@ -560,7 +560,7 @@ class VideoButtons {
         // "v-clipboard"
       ];
       const contains = controls
-        .map(e => target.classList.contains(e))
+        .map((e) => target.classList.contains(e))
         .filter(Boolean);
       if (contains.length) {
         if (animating) {
@@ -587,7 +587,7 @@ class VideoButtons {
     labelEl.classList.add("v-label");
     this.videoContainer.appendChild(labelEl);
 
-    labels.forEach(label => {
+    labels.forEach((label) => {
       label.addEventListener("mouseenter", () => {
         const { left } = label.getBoundingClientRect();
         const offset =
@@ -612,12 +612,12 @@ class VideoInteractive {
   constructor(video) {
     this.video = video;
     this.data = {};
-    this.fetchRichMedia(this.video.dataset.file.replace("mp4", "md"));
+    this.fetchRichMedia(this.video.dataset.file.replace("mp4", "txt"));
   }
   fetchRichMedia(src) {
     fetch(src)
-      .then(data => data.text())
-      .then(data => this.handleRichMedia(data));
+      .then((data) => data.text())
+      .then((data) => this.handleRichMedia(data));
   }
   dispatchEvent(eventName) {
     const event = new Event(eventName);
@@ -633,8 +633,8 @@ class VideoInteractive {
     const time = data.match(regex);
     const content = data
       .split(regex)
-      .map(item => item.trim())
-      .filter(item => item.length);
+      .map((item) => item.trim())
+      .filter((item) => item.length);
     const dataObject = time.map((time, index) => {
       return {
         time,
@@ -646,7 +646,9 @@ class VideoInteractive {
   createTimelineSections() {
     const timeline = document.querySelector(".v-progress-max");
     const timelineTitle = document.querySelector(".v-progress-title");
-    const sections = this.data.filter(item => item.content[0] === "#");
+    const sections = this.data.filter(
+      (item) => item.content.indexOf("```") === -1,
+    );
 
     sections.forEach((item, i) => {
       const time = HMSToSeconds(item.time);
@@ -667,7 +669,7 @@ class VideoInteractive {
       section.style.left = `${sectionStart}%`;
 
       // Add name to tooltip
-      const itemName = item.content.replace("# ", "");
+      const itemName = item.content;
       section.dataset.after = itemName;
 
       section.addEventListener("mouseenter", () => {
@@ -696,7 +698,7 @@ class VideoInteractiveClipboard extends VideoInteractive {
   }
   handleClipboardData() {
     const addEventForEach = (item, index) => {
-      if (item.content[0] !== "#") {
+      if (item.content.indexOf("```") > -1) {
         const timers = item.time.split("-");
         const start = HMSToSeconds(timers[0]);
         const stop = timers[1] ? HMSToSeconds(timers[1]) : start + 30;
@@ -743,7 +745,7 @@ class VideoInteractiveClipboard extends VideoInteractive {
       }, 300);
     };
 
-    const addTextEl = content => {
+    const addTextEl = (content) => {
       const el = document.createElement("pre");
       const cleanContent = content.replace(/```(\w?){1,}/g, "").trim();
       el.classList.add("v-popup-text", "v-clipboard");
@@ -762,7 +764,7 @@ class VideoInteractiveClipboard extends VideoInteractive {
       const pasteCMD = isMacLike ? "CMD" : "CTRL";
 
       const clipboard = new ClipboardJS(".v-clipboard");
-      clipboard.on("success", event => {
+      clipboard.on("success", (event) => {
         const innerHTML = event.trigger.innerHTML;
         const span = document.createElement("span");
         span.innerHTML = `Copied <b>${pasteCMD} + V</b>`;
@@ -802,8 +804,8 @@ class VideoSubtitles {
   }
   loadSubtitle(url) {
     return fetch(url)
-      .then(r => r.text())
-      .then(r => {
+      .then((r) => r.text())
+      .then((r) => {
         this.subtitle = this.parseVtt(r);
       });
   }
@@ -811,9 +813,9 @@ class VideoSubtitles {
     const time = vtt.match(/\d{2}:\d{2}:\d{2}\.\d{3}/g);
     const content = vtt
       .split(/[\n][\d]{1,}/g)
-      .map(item => item.substring(29))
-      .filter(item => item)
-      .map(item => {
+      .map((item) => item.substring(29))
+      .filter((item) => item)
+      .map((item) => {
         const start = HMSToSeconds(time.shift());
         const end = HMSToSeconds(time.shift());
         return [start, end, item];
@@ -834,14 +836,14 @@ class VideoSubtitles {
   async activateSubtitle(url) {
     await this.loadSubtitle(url);
     this.video.addEventListener("timeupdate", this.handleVideoUpdate);
-    this.buttons.forEach(btn => btn.classList.remove("active"));
+    this.buttons.forEach((btn) => btn.classList.remove("active"));
     document
       .querySelector(`[data-subtitlesrc="${url}"]`)
       .classList.add("active");
   }
   removeSubtitle() {
     this.video.removeEventListener("timeupdate", this.handleVideoUpdate);
-    this.buttons.forEach(btn => btn.classList.remove("active"));
+    this.buttons.forEach((btn) => btn.classList.remove("active"));
     this.subtitleText.innerText = "";
     this.subtitle = "";
     document.querySelector("[data-subtitlesrc='off']").classList.add("active");
@@ -856,7 +858,7 @@ class VideoSubtitles {
   }
   addSubtitlesMenu() {
     this.addOffButton();
-    this.subtitleList.forEach(url => {
+    this.subtitleList.forEach((url) => {
       const el = document.createElement("button");
       if (url.match("ptbr")) el.innerText = "Português";
       if (url.match("en")) el.innerText = "English";

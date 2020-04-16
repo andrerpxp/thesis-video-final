@@ -1,4 +1,4 @@
-00:10 # html
+00:10 html
 
 00:10
 
@@ -9,17 +9,20 @@
 </section>
 ```
 
-00:42 # http.open()
+00:42 http.open()
 
 00:42
 
 ```js
 const http = new XMLHttpRequest();
-http.open("GET", "https://financialmodelingprep.com/api/v3/company/profile/AAPL");
+http.open(
+  "GET",
+  "https://financialmodelingprep.com/api/v3/company/profile/AAPL",
+);
 http.send();
 ```
 
-01:20 # handleError
+01:20 handleError
 
 01:20
 
@@ -31,7 +34,7 @@ function handleError() {
 http.addEventListener("error", handleError);
 ```
 
-02:05 # handleLoad
+02:05 handleLoad
 
 02:05
 
